@@ -1,2 +1,2 @@
 
-A string library implemented by C.
+A string library implemented by C/Cpp.
