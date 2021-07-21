@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 
 namespace hsy
 {
@@ -7,9 +6,9 @@ namespace hsy
 	class string
 	{
 
-		friend ostream& operator<<(ostream& _cout, const hsy::string& s);
+		friend std::ostream& operator<<(std::ostream& _cout, const hsy::string& s);
 
-		friend istream& operator>>(istream& _cin, hsy::string& s);
+		friend std::istream& operator>>(std::istream& _cin, hsy::string& s);
 
 	public:
 
@@ -101,15 +100,15 @@ namespace hsy
 
 
 
-		// è¿”å›cåœ¨stringä¸­ç¬¬ä¸€æ¬¡å‡ºç°çš„ä½ç½®
+		// ·µ»ØcÔÚstringÖĞµÚÒ»´Î³öÏÖµÄÎ»ÖÃ
 
 		size_t find(char c, size_t pos = 0) const;
 
-		// è¿”å›å­ä¸²såœ¨stringä¸­ç¬¬ä¸€æ¬¡å‡ºç°çš„ä½ç½®
+		// ·µ»Ø×Ó´®sÔÚstringÖĞµÚÒ»´Î³öÏÖµÄÎ»ÖÃ
 
 		size_t find(const char* s, size_t pos = 0) const;
 
-		// åœ¨posä½ç½®ä¸Šæ’å…¥å­—ç¬¦c/å­—ç¬¦ä¸²strï¼Œå¹¶è¿”å›è¯¥å­—ç¬¦çš„ä½ç½®
+		// ÔÚposÎ»ÖÃÉÏ²åÈë×Ö·ûc/×Ö·û´®str£¬²¢·µ»Ø¸Ã×Ö·ûµÄÎ»ÖÃ
 
 		string& insert(size_t pos, char c);
 
@@ -117,7 +116,7 @@ namespace hsy
 
 
 
-		// åˆ é™¤posä½ç½®ä¸Šçš„å…ƒç´ ï¼Œå¹¶è¿”å›è¯¥å…ƒç´ çš„ä¸‹ä¸€ä¸ªä½ç½®
+		// É¾³ıposÎ»ÖÃÉÏµÄÔªËØ£¬²¢·µ»Ø¸ÃÔªËØµÄÏÂÒ»¸öÎ»ÖÃ
 
 		string& erase(size_t pos, size_t len);
 
@@ -130,5 +129,6 @@ namespace hsy
 		size_t _size;
 
 	};
+	
 
 };

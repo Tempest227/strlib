@@ -2,58 +2,65 @@
 #include "string.h"
 #include <assert.h>
 
-ostream& operator<<(ostream& _cout, const hsy::string& s)
-{
+//std::ostream& operator<<(std::ostream& _cout, const hsy::string& s)
+//{
+//	_cout << s.c_str();
+//	return _cout;
+//}
+//
+//std::istream& operator>>(std::istream& _cin, hsy::string& s)
+//{
+//	char* str = nullptr;
+//	_cin >> str;
+//
+//	hsy::string tmp(str);
+//	s = tmp;
+//
+//	return _cin;
+//}
 
-}
-
-istream& operator>>(istream& _cin, hsy::string& s)
-{
-
-}
-
-//stringæ„é€ å‡½æ•°
+//string¹¹Ôìº¯Êı
 hsy::string::string(const char* str)
 {
-	//æ•°ç»„å®¹é‡ = æ•°ç»„å®é™…å­˜æ”¾å­—ç¬¦ä¸ªæ•°
+	//Êı×éÈİÁ¿ = Êı×éÊµ¼Ê´æ·Å×Ö·û¸öÊı
 	_capacity = _size = strlen(str);
-	//åœ¨å †ä¸Šä¸ºå­—ç¬¦ä¸²ç”³è¯·ç©ºé—´ï¼Œå¤§å°ä¸ºstrçš„é•¿åº¦+1
+	//ÔÚ¶ÑÉÏÎª×Ö·û´®ÉêÇë¿Õ¼ä£¬´óĞ¡ÎªstrµÄ³¤¶È+1
 	_str = new char[_size + 1];
-	//å°†stræ‹·è´åˆ°å¯¹è±¡æˆå‘˜å˜é‡_stræ‰€æŒ‡å‘çš„å†…å­˜ç©ºé—´
+	//½«str¿½±´µ½¶ÔÏó³ÉÔ±±äÁ¿_strËùÖ¸ÏòµÄÄÚ´æ¿Õ¼ä,strcpy¿½±´Ê±Ò²»á½«'\0'¿½±´
 	strcpy(_str, str);
 }
 
-//stringæ‹·è´æ„é€ å‡½æ•°
+//string¿½±´¹¹Ôìº¯Êı
 hsy::string::string(const string& s)
 {
-	//å°†sçš„sizeå’Œcapacityèµ‹å€¼ç»™å¾…æ„é€ çš„å¯¹è±¡
+	//½«sµÄsizeºÍcapacity¸³Öµ¸ø´ı¹¹ÔìµÄ¶ÔÏó
 	_size = s._size;
 	_capacity = s._capacity;
-	//å †ä¸Šç”³è¯·å­—ç¬¦ä¸²ç©ºé—´ï¼Œå¹¶å°†sçš„å­—ç¬¦ä¸²æˆå‘˜å˜é‡_stræ‹·è´åˆ°ç”³è¯·çš„ç©ºé—´
+	//¶ÑÉÏÉêÇë×Ö·û´®¿Õ¼ä£¬²¢½«sµÄ×Ö·û´®³ÉÔ±±äÁ¿_str¿½±´µ½ÉêÇëµÄ¿Õ¼ä
 	_str = new char[_size + 1];
 	strcpy(_str, s._str);
 }
 
-//stringèµ‹å€¼è¿ç®—
+//string¸³ÖµÔËËã
 hsy::string& hsy::string::operator=(const hsy::string &s)
 {
-	//é¿å…è‡ªå·±ç»™è‡ªå·±èµ‹å€¼
+	//±ÜÃâ×Ô¼º¸ø×Ô¼º¸³Öµ
 	if (this != &s)
 	{
-		//é‡Šæ”¾åŸæœ‰å­—ç¬¦ä¸²ç©ºé—´
+		//ÊÍ·ÅÔ­ÓĞ×Ö·û´®¿Õ¼ä
 		delete[] _str;
-		//æ–°å¼€è¾Ÿå­—ç¬¦ä¸²ç©ºé—´ï¼Œå¹¶å°†sçš„å­—ç¬¦ä¸²æ‹·è´åˆ°å…¶ä¸­
+		//ĞÂ¿ª±Ù×Ö·û´®¿Õ¼ä£¬²¢½«sµÄ×Ö·û´®¿½±´µ½ÆäÖĞ
 		_str = new char[s._size + 1];
 		strcpy(_str, s._str);
-		//æ›´æ–°_sizeå’Œ_capacity
+		//¸üĞÂ_sizeºÍ_capacity
 		_size = s._size;
 		_capacity = s._capacity;
 	}
-	//ä»¥ä¸Šä»£ç ä¹Ÿå¯ä»¥ç›´æ¥ç”¨swap(s)ä»£æ›¿
+	//ÒÔÉÏ´úÂëÒ²¿ÉÒÔÖ±½ÓÓÃswap(s)´úÌæ
 	return *this;
 }
 
-//stringææ„å‡½æ•°
+//stringÎö¹¹º¯Êı
 hsy::string::~string()
 {
 	delete[] _str;
@@ -61,7 +68,7 @@ hsy::string::~string()
 	_size = _capacity = 0;
 }
 
-//iteratorè¿­ä»£å™¨ï¼ˆç±»ä¼¼äºæŒ‡é’ˆï¼‰
+//iteratorµü´úÆ÷£¨ÀàËÆÓÚÖ¸Õë£©
 hsy::string::iterator hsy::string::begin()
 {
 	return _str;
@@ -84,7 +91,6 @@ void hsy::string::push_back(char c)
 	_str[_size] = c;
 	_str[_size + 1] = '\0';
 	_size++;
-	_capacity *= 2;
 }
 
 hsy::string& hsy::string::operator+=(char c)
@@ -96,7 +102,7 @@ hsy::string& hsy::string::operator+=(char c)
 
 void hsy::string::append(const char* str)
 {
-	size_t len = strlen(str) + strlen(_str);
+	size_t len = strlen(str) + _size;
 	if (len > _capacity)
 	{
 		reserve(len);
@@ -119,12 +125,12 @@ void hsy::string::clear()
 	_size = 0;
 }
 
-//ç›´æ¥ç”¨swap(*this, s)ä¼šå‘ç”Ÿæ·±æ‹·è´ï¼Œå› æ­¤è¿™é‡Œäº¤æ¢æˆå‘˜å˜é‡æå‡æ•ˆç‡
+//Ö±½ÓÓÃswap(*this, s)»á·¢ÉúÉî¿½±´£¬Òò´ËÕâÀï½»»»³ÉÔ±±äÁ¿ÌáÉıĞ§ÂÊ
 void hsy::string::swap(string& s)
 {
-	::swap(_str, s._str);
-	::swap(_size, s._size);
-	::swap(_capacity, s._capacity);
+	std::swap(_str, s._str);
+	std::swap(_size, s._size);
+	std::swap(_capacity, s._capacity);
 }
 
 //Returns a pointer to an array that contains a null-terminated sequence of characters (i.e., a C-string)
@@ -166,7 +172,7 @@ void hsy::string::resize(size_t n, char c)
 		strncpy(tmp, _str, n);
 	}
 
-	for (int i = strlen(tmp); i < n; i++)
+	for (size_t i = strlen(tmp); i < n; i++)
 	{
 		tmp[i] = c;
 	}
@@ -179,10 +185,12 @@ void hsy::string::reserve(size_t n)
 {
 	if (n > _capacity)
 	{
+		_capacity = n;
+
 		char* str = new char[n + 1];
 		strcpy(str, _str);
-		delete[] _str;
 
+		delete[] _str;
 		_str = str;
 	}
 }
@@ -237,11 +245,11 @@ bool hsy::string::operator!=(const string& s)
 
 
 
-// è¿”å›cåœ¨stringä¸­ç¬¬ä¸€æ¬¡å‡ºç°çš„ä½ç½®
+// ·µ»ØcÔÚstringÖĞµÚÒ»´Î³öÏÖµÄÎ»ÖÃ
 
 size_t hsy::string::find(char c, size_t pos) const
 {
-	for (int i = pos; i < _size; i++)
+	for (size_t i = pos; i < _size; i++)
 	{
 		if (_str[i] == c)
 		{
@@ -251,30 +259,97 @@ size_t hsy::string::find(char c, size_t pos) const
 	return -1;
 }
 
-// è¿”å›å­ä¸²såœ¨stringä¸­ç¬¬ä¸€æ¬¡å‡ºç°çš„ä½ç½®
+// ·µ»Ø×Ó´®sÔÚstringÖĞµÚÒ»´Î³öÏÖµÄÎ»ÖÃ
 
 size_t hsy::string::find(const char* s, size_t pos) const
 {
+	char* ret;
+	if ((ret = strstr(_str + pos, s)) != NULL)
+	{
+		return ret - _str;
+	}
 
+	return -1;
 }
 
-// åœ¨posä½ç½®ä¸Šæ’å…¥å­—ç¬¦c/å­—ç¬¦ä¸²strï¼Œå¹¶è¿”å›è¯¥å­—ç¬¦çš„ä½ç½®
+// ÔÚposÎ»ÖÃÉÏ²åÈë×Ö·ûc/×Ö·û´®str£¬²¢·µ»Ø¸Ã×Ö·ûµÄÎ»ÖÃ
 
 hsy::string& hsy::string::insert(size_t pos, char c)
 {
-
+	assert(pos < _capacity);
+	reserve(_capacity);
+	
+	if (pos >= _size)
+	{
+		_str[pos] = c;
+	}
+	else
+	{
+		for (size_t i = _size - 1; i > pos; i++)
+		{
+			_str[i + 1] = _str[i];
+		}
+		_str[pos] = c;
+	}
+	
+	return *this;
 }
 
 hsy::string& hsy::string::insert(size_t pos, const char* str)
 {
+	size_t len = strlen(str) + _size;
+	if (len > _capacity)
+	{
+		reserve(len);
+	}
+	int l = strlen(str);
+	while (l)
+	{
+		for (size_t i = _size - 1; i > pos; i--)
+		{
+			_str[i + 1] = _str[i];
+		}
 
+		l--;
+	}
+	
+
+	for (size_t i = pos; i < strlen(str); i++)
+	{
+		_str[i] = str[i - pos];
+	}
+
+	return *this;
 }
 
 
 
-// åˆ é™¤posä½ç½®ä¸Šçš„å…ƒç´ ï¼Œå¹¶è¿”å›è¯¥å…ƒç´ çš„ä¸‹ä¸€ä¸ªä½ç½®
+// É¾³ıposÎ»ÖÃÉÏµÄÔªËØ
 
 hsy::string& hsy::string::erase(size_t pos, size_t len)
 {
+	assert(pos < _size);
+	if (len == -1)
+	{
+		for (size_t i = pos; i < _size; i++)
+		{
+			_str[i] = '\0';
+		}
+	}
+	else
+	{
+		for (size_t i = pos; i <  len; i++)
+		{
+			if (i < _size)
+			{
+				_str[i] = '\0';
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
 
+	return *this;
 }
