@@ -2,22 +2,6 @@
 #include "string.h"
 #include <assert.h>
 
-//std::ostream& operator<<(std::ostream& _cout, const hsy::string& s)
-//{
-//	_cout << s.c_str();
-//	return _cout;
-//}
-//
-//std::istream& operator>>(std::istream& _cin, hsy::string& s)
-//{
-//	char* str = nullptr;
-//	_cin >> str;
-//
-//	hsy::string tmp(str);
-//	s = tmp;
-//
-//	return _cin;
-//}
 
 //string¹¹Ôìº¯Êý
 hsy::string::string(const char* str)
@@ -80,12 +64,13 @@ hsy::string::iterator hsy::string::end()
 }
 
 //modify
-
+//insert(_size, c)
 void hsy::string::push_back(char c)
 {
 	if (_size + 1 > _capacity)
 	{
-		reserve(_capacity * 2);
+		size_t new_capacity = _capacity == 0 ? 4 : _capacity * 2;
+		reserve(new_capacity);
 	}
 
 	_str[_size] = c;
@@ -99,7 +84,7 @@ hsy::string& hsy::string::operator+=(char c)
 
 	return *this;
 }
-
+//insert(_size, str)
 void hsy::string::append(const char* str)
 {
 	size_t len = strlen(str) + _size;
@@ -159,26 +144,25 @@ bool hsy::string::empty()const
 
 void hsy::string::resize(size_t n, char c)
 {
-	char* tmp = new char[n + 1];
-	memset(tmp, 0, n + 1);
-	_capacity = n;
-
-	if (_size < n)
+	if (n < _capacity)
 	{
-		strncpy(tmp, _str, _size);
+		_str[n] = '\0';
+		_size = n;
 	}
 	else
 	{
-		strncpy(tmp, _str, n);
+		if (n > _capacity)
+		{
+			reserve(n);
+		}
+		
+		for (size_t i = _size; i < n; i++)
+		{
+			_str[i] = c;
+		}
+		_str[n] = '\0';
+		_size = n;
 	}
-
-	for (size_t i = strlen(tmp); i < n; i++)
-	{
-		tmp[i] = c;
-	}
-	
-	delete _str;
-	_str = tmp;
 }
 
 void hsy::string::reserve(size_t n)
@@ -188,7 +172,7 @@ void hsy::string::reserve(size_t n)
 		_capacity = n;
 
 		char* str = new char[n + 1];
-		strcpy(str, _str);
+		strncpy(str, _str, _size);
 
 		delete[] _str;
 		_str = str;
@@ -216,7 +200,7 @@ const char& hsy::string::operator[](size_t index)const
 bool hsy::string::operator<(const string& s)
 {
 	return strcmp(_str, s._str) < 0 ? true : false;
-}
+
 
 bool hsy::string::operator<=(const string& s)
 {
@@ -276,8 +260,8 @@ size_t hsy::string::find(const char* s, size_t pos) const
 
 hsy::string& hsy::string::insert(size_t pos, char c)
 {
-	assert(pos < _capacity);
-	reserve(_capacity);
+	/*assert(pos < _capacity);
+	reserve(_capacity * 2);
 	
 	if (pos >= _size)
 	{
@@ -292,16 +276,36 @@ hsy::string& hsy::string::insert(size_t pos, char c)
 		_str[pos] = c;
 	}
 	
+	return *this;*/
+	assert(pos < _size);
+	if (_size == _capacity)
+	{
+		size_t new_capacity = _capacity == 0 ? 4 : _capacity * 2;
+		reserve(new_capacity);
+	}
+	
+	int end = _size + 1;
+	while (end > pos)
+	{
+		_str[end] = _str[end - 1];
+		end--;
+	}
+	_str[pos]++;
+	_size++;
+
 	return *this;
 }
 
 hsy::string& hsy::string::insert(size_t pos, const char* str)
 {
+	/*assert(pos < _size);
+
 	size_t len = strlen(str) + _size;
 	if (len > _capacity)
 	{
 		reserve(len);
 	}
+
 	int l = strlen(str);
 	while (l)
 	{
@@ -317,7 +321,25 @@ hsy::string& hsy::string::insert(size_t pos, const char* str)
 	for (size_t i = pos; i < strlen(str); i++)
 	{
 		_str[i] = str[i - pos];
+	}*/
+
+	assert(pos < _size);
+
+	size_t len = strlen(str);
+	if (_size + len > _capacity)
+	{
+		reserve(_size + len);
 	}
+
+	char* end = _str + _size;
+	while (end >= _str + pos)
+	{
+		*(end + len) = *end;
+		end--;
+	}
+
+	strncpy(_str + pos, str, len);
+	_size += len;
 
 	return *this;
 }
@@ -328,7 +350,7 @@ hsy::string& hsy::string::insert(size_t pos, const char* str)
 
 hsy::string& hsy::string::erase(size_t pos, size_t len)
 {
-	assert(pos < _size);
+	/*assert(pos < _size);
 	if (len == -1)
 	{
 		for (size_t i = pos; i < _size; i++)
@@ -349,6 +371,21 @@ hsy::string& hsy::string::erase(size_t pos, size_t len)
 				break;
 			}
 		}
+	}
+
+	return *this;*/
+	assert(pos < _size);
+
+	size_t leftLen = _size - pos;
+	if (len >= leftLen)
+	{
+		_str[pos] = '\0';
+		_size = pos;
+	}
+	else
+	{
+		strcpy(_str + pos, _str + pos + len);
+		_size -= len;
 	}
 
 	return *this;
