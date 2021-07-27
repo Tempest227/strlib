@@ -290,7 +290,7 @@ hsy::string& hsy::string::insert(size_t pos, char c)
 		_str[end] = _str[end - 1];
 		end--;
 	}
-	_str[pos]++;
+	_str[pos] = c;
 	_size++;
 
 	return *this;
